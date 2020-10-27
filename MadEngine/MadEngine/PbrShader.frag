@@ -60,12 +60,12 @@ void main() {
 
     vec3 lightColor = vec3(1.0f); 
     vec3 lightPosition[6];
-    lightPosition[0] = vec3(1.0f,4.0f,2.0f);
-    lightPosition[1] = vec3(2.0f,1.0f,-3.5f);
-    lightPosition[2] = vec3(1.0,-7.0f,2.0f);
-    lightPosition[3] = vec3(-1.0f,-1.0f,0.0f);
-    lightPosition[4] = vec3(-1.0f,1.0f,3.0f);
-    lightPosition[5] = vec3(-4.0f,6.0f,-2.0f);
+    lightPosition[0] = vec3(1.0f,4.0f,1.0f);
+    lightPosition[1] = vec3(-2.0f,1.0f,-3.5f);
+    lightPosition[2] = vec3(4.0,-3.0f,2.0f);
+    lightPosition[3] = vec3(-2.0f,-1.0f,0.0f);
+    lightPosition[4] = vec3(-1.0f,2.5f,3.0f);
+    lightPosition[5] = vec3(-4.0f,3.0f,-2.0f);
     
     vec3 N = normalize(normalCoords);
     vec3 V = normalize(vec3(-16.0f,6.0f,2.0) - vec3(0.0f,0.0f,0.0f));

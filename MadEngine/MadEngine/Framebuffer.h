@@ -5,25 +5,9 @@ class Framebuffer
 {
 public:
 	std::vector<VkFramebuffer> swapChainFramebuffers;
-	VkFramebuffer offScreenFrameBuffer;
 private:
 	VkDevice* deviceRef;
 public:
-
-	void InitializeOffScreenFramebuffer(VkDevice device,VkRenderPass renderPass,VkImageView offScreenImageView)
-	{
-		VkFramebufferCreateInfo frameBufferInfo = {};
-		frameBufferInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
-		frameBufferInfo.renderPass = renderPass;
-		frameBufferInfo.attachmentCount = 1;
-		frameBufferInfo.pAttachments = &offScreenImageView;
-		frameBufferInfo.width = static_cast<int32_t>(64);
-		frameBufferInfo.height = static_cast<int32_t>(64);
-		frameBufferInfo.layers = 1;
-
-		if (vkCreateFramebuffer(device, &frameBufferInfo, nullptr, &offScreenFrameBuffer) != VK_SUCCESS)
-			throw std::runtime_error("Problem!");
-	}
 
 	void Initialize(VkImageView depthImageView,VkImageView colorImageView,std::vector<VkImageView> swapchainImageViews,VkRenderPass renderPass,VkExtent2D swapchainExtent,VkDevice device)
 	{

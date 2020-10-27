@@ -230,12 +230,12 @@ public:
 		barrier.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
 		barrier.subresourceRange.baseMipLevel = 0;
 		barrier.subresourceRange.baseArrayLayer = 0;
+		barrier.subresourceRange.levelCount = 1;
+		barrier.newLayout = newImageLayout;
 		if (isCubeMap)
 		{
 			barrier.subresourceRange.layerCount = 6;
 			//barrier.subresourceRange.levelCount = mipmapLevel;
-			barrier.subresourceRange.levelCount = 1;
-			barrier.newLayout = newImageLayout;
 			//barrier.newLayout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
 		}
 		else
@@ -283,12 +283,12 @@ public:
 
 		region.imageSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
 		region.imageSubresource.baseArrayLayer = 0;
+		region.imageSubresource.mipLevel = 0;
+		region.imageExtent = { width,height,1 };
 		if (isCubeMap)
 		{
 			region.imageSubresource.layerCount = 6;
 			//region.imageSubresource.mipLevel = 4;
-			region.imageSubresource.mipLevel = 0;
-			region.imageExtent = {width,height,1 };
 		}
 		else
 		{
@@ -302,7 +302,8 @@ public:
 
 		EndSingleTimeCommands(device, graphicsQueue, commandBuffer, commandPool);
 	}
-
+	//Unused
+	/*
 	void GenerateMipMaps(VkDevice device,VkCommandPool commandPool,VkQueue graphicsQueue,VkImage image, int32_t textureWidth, int32_t textureHeight, uint32_t mipmapLevels)
 	{
 		VkCommandBuffer commandBuffer = BeginSingleTimeCommands(device,commandPool);
@@ -376,13 +377,15 @@ public:
 			1, &barrier);
 		EndSingleTimeCommands(device,graphicsQueue,commandBuffer,commandPool);
 	}
-
+	*/
 	~Buffer()
 	{
 		for (size_t i = 0; i < imagesSize; i++)
 		{
 			vkDestroyBuffer(*deviceRef, uniformBuffers[i], nullptr);
+			vkDestroyBuffer(*deviceRef, uniformBuffers2[i], nullptr);
 			vkFreeMemory(*deviceRef, uniformBuffersMemory[i], nullptr);
+			vkFreeMemory(*deviceRef, uniformBuffersMemory2[i], nullptr);
 		}
 		vkDestroyBuffer(*deviceRef, vertexBuffer, nullptr);
 		vkFreeMemory(*deviceRef, vertexBufferMemory, nullptr);

@@ -320,6 +320,8 @@ public:
 	~DescriptorSet()
 	{
 		vkDestroyDescriptorPool(*deviceRef, descriptorPool, nullptr);
+		vkDestroyDescriptorPool(*deviceRef, descriptorPool2, nullptr);
 		vkDestroyDescriptorSetLayout(*deviceRef, descriptorSetLayout, nullptr);
+		vkDestroyDescriptorSetLayout(*deviceRef, descriptorSetLayout2, nullptr);
 	}
 };

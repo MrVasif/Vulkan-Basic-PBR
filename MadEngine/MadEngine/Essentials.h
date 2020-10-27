@@ -52,7 +52,6 @@ struct Vertex
 	glm::vec3 position;
 	glm::vec3 color;
 	glm::vec2 texCoord;
-	glm::vec3 lightPosition;
 	glm::vec3 normals;
 	static VkVertexInputBindingDescription GetBindingDescription()
 	{
@@ -63,9 +62,9 @@ struct Vertex
 		return bindingDescription;
 	}
 
-	static std::array<VkVertexInputAttributeDescription, 5> GetAttributeDescriptions()
+	static std::array<VkVertexInputAttributeDescription, 4> GetAttributeDescriptions()
 	{
-		std::array<VkVertexInputAttributeDescription, 5> attributeDescriptions = {};
+		std::array<VkVertexInputAttributeDescription, 4> attributeDescriptions = {};
 
 		attributeDescriptions[0].binding = 0;
 		attributeDescriptions[0].location = 0;
@@ -86,19 +85,14 @@ struct Vertex
 		attributeDescriptions[3].binding = 0;
 		attributeDescriptions[3].location = 3;
 		attributeDescriptions[3].format = VK_FORMAT_R32G32B32_SFLOAT;
-		attributeDescriptions[3].offset = offsetof(Vertex, lightPosition);
-
-		attributeDescriptions[4].binding = 0;
-		attributeDescriptions[4].location = 4;
-		attributeDescriptions[4].format = VK_FORMAT_R32G32B32_SFLOAT;
-		attributeDescriptions[4].offset = offsetof(Vertex, normals);
+		attributeDescriptions[3].offset = offsetof(Vertex, normals);
 
 		return attributeDescriptions;
 	}
 
 	bool operator==(const Vertex& other) const
 	{
-		return  position == other.position && color == other.position && texCoord == other.texCoord && lightPosition == other.lightPosition && normals == other.normals;
+		return  position == other.position && color == other.position && texCoord == other.texCoord && normals == other.normals;
 	}
 };
 

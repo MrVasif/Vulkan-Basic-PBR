@@ -84,22 +84,6 @@ public:
 			vkCmdDrawIndexed(commandBuffers[i], static_cast<uint32_t>(indices2.size()), 1, 0, 0, 0);
 			vkCmdEndRenderPass(commandBuffers[i]);
 
-			
-			//vkCmdDrawIndexed(commandBuffers[i], static_cast<uint32_t>(indices.size()), 1, 0, 0, 0);
-			/*
-			VkBuffer vertexBuffers2[] = { vertexBuffer2 };
-			VkDeviceSize offsets2[] = { 0 };
-
-			vkCmdBindVertexBuffers(commandBuffers[i], 0, 1, vertexBuffers2, offsets2);
-			
-			vkCmdBindIndexBuffer(commandBuffers[i], indexBuffer2, 0, VK_INDEX_TYPE_UINT32);
-
-			vkCmdBindDescriptorSets(commandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout2, 0, 1, &descriptorSets2[i], 0, nullptr);
-
-			vkCmdDrawIndexed(commandBuffers[i], static_cast<uint32_t>(indices.size()), 1, 0, 0, 0);
-			*/
-
-
 			if (vkEndCommandBuffer(commandBuffers[i]) != VK_SUCCESS)
 				throw std::runtime_error("Problen!");
 		}

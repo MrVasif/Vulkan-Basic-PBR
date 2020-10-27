@@ -13,9 +13,6 @@ public:
 	VkSurfaceFormatKHR surfaceFormat;
 private:
 	VkDevice* deviceRef;
-	VkImage _computeImage;
-	VkImageView computeImageView;
-	VkDeviceMemory computeDeviceMemory;
 private:
 
 	VkSurfaceFormatKHR ChooseSwapchainSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& avaibleFormats)
@@ -58,55 +55,6 @@ private:
 
 	}
 public:
-	void CreateComputeImages(uint32_t width, uint32_t height,VkDevice logicalDevice,Buffer* bufferHandler,VkPhysicalDevice physicalDevice)
-	{
-		VkImageCreateInfo computeImage = {};
-		computeImage.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
-		computeImage.imageType = VK_IMAGE_TYPE_2D;
-		computeImage.format = surfaceFormat.format;
-		computeImage.extent = { width,height,1 };
-		computeImage.mipLevels = 1;
-		computeImage.arrayLayers = 1;
-		computeImage.samples = VK_SAMPLE_COUNT_1_BIT;
-		computeImage.tiling = VK_IMAGE_TILING_OPTIMAL;
-		computeImage.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-		computeImage.usage = VK_IMAGE_USAGE_STORAGE_BIT | VK_IMAGE_USAGE_TRANSFER_SRC_BIT;
-
-		VkResult result = vkCreateImage(logicalDevice, &computeImage, nullptr, &_computeImage);
-		if (result != VK_SUCCESS)
-			throw std::runtime_error("Problem");
-
-		uint32_t memoryTypeIndex = 0;
-		bufferHandler->FindMemoryType(memoryTypeIndex, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, physicalDevice, logicalDevice);
-
-		VkMemoryRequirements memoryRequirements;
-		vkGetImageMemoryRequirements(logicalDevice, _computeImage, &memoryRequirements);
-
-		VkMemoryAllocateInfo memoryInfo = {};
-		memoryInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
-		memoryInfo.allocationSize = memoryRequirements.size;
-		memoryInfo.memoryTypeIndex = memoryTypeIndex;
-
-		result = vkAllocateMemory(logicalDevice, &memoryInfo, nullptr, &computeDeviceMemory);
-		if (result != VK_SUCCESS)
-			throw std::runtime_error("Problem");
-		result = vkBindImageMemory(logicalDevice, _computeImage, computeDeviceMemory, 0);
-		if (result != VK_SUCCESS)
-			throw std::runtime_error("Problem");
-
-		VkImageViewCreateInfo imageViewCreateInfo = {};
-		imageViewCreateInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
-		imageViewCreateInfo.image = _computeImage;
-		imageViewCreateInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
-		imageViewCreateInfo.format = surfaceFormat.format;
-		imageViewCreateInfo.components = { VK_COMPONENT_SWIZZLE_R, VK_COMPONENT_SWIZZLE_G, VK_COMPONENT_SWIZZLE_B, VK_COMPONENT_SWIZZLE_A };
-		imageViewCreateInfo.subresourceRange = { VK_IMAGE_ASPECT_COLOR_BIT,0,1,0,1 };
-
-		result = vkCreateImageView(logicalDevice, &imageViewCreateInfo, nullptr, &computeImageView);
-		if (result != VK_SUCCESS)
-			throw std::runtime_error("Problem!");
-	}
-
 	void CreateImageViews(VkDevice device)
 	{
 		swapchainImageViews.resize(swapChainImages.size());

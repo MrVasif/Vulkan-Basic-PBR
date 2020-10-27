@@ -96,62 +96,6 @@ public:
 		depthImageView = CreateImageView(device, depthImage, depthFormat, VK_IMAGE_ASPECT_DEPTH_BIT, depthImageView,false);
 	}
 
-	void InitializeCubeMapTexture(VkDevice device, VkQueue graphicsQueue, VkCommandPool& commandPool,
-		VkPhysicalDevice physicalDevice, Buffer* bufferHandler, VkImage& textureImage, VkDeviceMemory& textureImageMemory, std::string texturePath1, std::string texturePath2, std::string texturePath3,
-		std::string texturePath4, std::string texturePath5, std::string texturePath6)
-	{
-		/*
-		deviceRef = &device;
-		int textureWidth = 0, textureHeight = 0, textureChannels = 0;
-		stbi_uc* pixels1 = stbi_load(texturePath1.c_str(), &textureWidth, &textureHeight, &textureChannels, STBI_rgb_alpha);
-		stbi_uc* pixels2 = stbi_load(texturePath2.c_str(), &textureWidth, &textureHeight, &textureChannels, STBI_rgb_alpha);
-		stbi_uc* pixels3 = stbi_load(texturePath3.c_str(), &textureWidth, &textureHeight, &textureChannels, STBI_rgb_alpha);
-		stbi_uc* pixels4 = stbi_load(texturePath4.c_str(), &textureWidth, &textureHeight, &textureChannels, STBI_rgb_alpha);
-		stbi_uc* pixels5 = stbi_load(texturePath5.c_str(), &textureWidth, &textureHeight, &textureChannels, STBI_rgb_alpha);
-		stbi_uc* pixels6 = stbi_load(texturePath6.c_str(), &textureWidth, &textureHeight, &textureChannels, STBI_rgb_alpha);
-		std::vector<stbi_uc*> pixels = { pixels1,pixels2,pixels3,pixels4,pixels5,pixels6 };
-		VkDeviceSize textureSize = textureWidth * textureHeight * 4 * 6;
-		VkDeviceSize layerSize = textureSize / 6;
-		if (!pixels1 || !pixels2 || !pixels3 || !pixels4 || !pixels5 || !pixels6)
-			throw std::runtime_error("Problem!");
-
-		VkBuffer stagingBuffer;
-		VkDeviceMemory stagingBufferMemory;
-
-		bufferHandler->CreateBuffer(textureSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT |
-			VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, stagingBuffer, stagingBufferMemory, device, physicalDevice);
-
-		void* data;
-		vkMapMemory(device, stagingBufferMemory, 0, textureSize, 0, &data);
-		for(int i = 0; i < 6; i++)
-			memcpy(data, pixels[i], static_cast<size_t>(layerSize));
-		vkUnmapMemory(device, stagingBufferMemory);
-
-		stbi_image_free(pixels1);
-		stbi_image_free(pixels2);
-		stbi_image_free(pixels3);
-		stbi_image_free(pixels4);
-		stbi_image_free(pixels5);
-		stbi_image_free(pixels6);
-
-		CreateImage(physicalDevice, device, bufferHandler, textureWidth, textureHeight, VK_FORMAT_R8G8B8A8_SRGB,
-			VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT,
-			VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, textureImage, textureImageMemory,true, VK_SAMPLE_COUNT_1_BIT);
-
-		bufferHandler->TransitionImageLayout(device, graphicsQueue, commandPool, textureImage,
-			VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,true);
-
-		bufferHandler->CopyBufferToImage(device, commandPool, graphicsQueue, stagingBuffer,
-			textureImage, static_cast<uint32_t>(textureWidth), static_cast<uint32_t>(textureHeight),true);
-
-		bufferHandler->TransitionImageLayout(device, graphicsQueue, commandPool, textureImage,
-			VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL,true);
-
-		vkDestroyBuffer(device, stagingBuffer, nullptr);
-		vkFreeMemory(device, stagingBufferMemory, nullptr);
-		*/
-	}
-
 	void InitializeIrradianceCubeImage(VkPhysicalDevice physicalDevice, VkDevice device, Buffer* bufferHandler)
 	{
 		const VkFormat format = VK_FORMAT_R32G32B32A32_SFLOAT;
@@ -395,6 +339,7 @@ public:
 		vkDestroyBuffer(device, stagingBuffer, nullptr);
 		vkFreeMemory(device, stagingBufferMemory, nullptr);
 
+		//Unused -- Cubemap With MipMaps
 		//if(isCubeMap)
 			//bufferHandler->GenerateMipMaps(device, commandPool, graphicsQueue, textureImage, 64, 64, mipMapLevel);
 	}

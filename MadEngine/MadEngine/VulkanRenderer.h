@@ -53,14 +53,14 @@ private:
 	std::vector<uint32_t> indices2;
 
 	const std::string MODEL_PATH = "sphere.obj";
-	const std::string MODEL_PATH2 = "sky.obj";
+	const std::string MODEL_PATH_DROID = "Droid.obj";
 	const std::string TEXTURE_PATH = "Forest.jpg";
-	const std::string TEXTURE_PATH2 = "DroidAlbedo.png";
+	const std::string TEXTURE_PATH_ALBEDO = "DroidAlbedo.png";
 	const std::string TEXTURE_PATH_NORMAL = "DroidNormal.png";
 	const std::string TEXTURE_PATH_METALLIC = "DroidMetallic.png";
 	const std::string TEXTURE_PATH_ROUGHNESS = "DroidRoughness.png";
 	const std::string TEXTURE_PATH_AMBIENT_OCCLUSION = "DroidAO.png";
-	const std::string CubeTex = "1.png";
+	const std::string TEXTURE_PATH_FOREST_CUBE = "ForestEdited2.jpg";
 public:
 	void Start(GLFWwindow* window)
 	{
@@ -118,7 +118,7 @@ public:
 		textureLoader->InitializeSamplers(logicalDevice->logicalDevice, textureLoader->textureSampler,false,0);
 		//PBR Textures---
 		//Albedo
-		textureLoader->InitializeTextures(logicalDevice->logicalDevice, logicalDevice->graphicsQueue, commandPool->commandPool, device->physicalDevice, bufferHandler,TEXTURE_PATH2, textureLoader->textureImage2, textureLoader->textureImageMemory2);
+		textureLoader->InitializeTextures(logicalDevice->logicalDevice, logicalDevice->graphicsQueue, commandPool->commandPool, device->physicalDevice, bufferHandler,TEXTURE_PATH_ALBEDO, textureLoader->textureImage2, textureLoader->textureImageMemory2);
 		textureLoader->InitializeTextureImageView(logicalDevice->logicalDevice, VK_IMAGE_ASPECT_COLOR_BIT, textureLoader->textureImage2, textureLoader->textureImageView2,false);
 		textureLoader->InitializeSamplers(logicalDevice->logicalDevice, textureLoader->textureSampler2,false,0); 
 		//Normal
@@ -138,7 +138,7 @@ public:
 		textureLoader->InitializeTextureImageView(logicalDevice->logicalDevice, VK_IMAGE_ASPECT_COLOR_BIT, textureLoader->textureImageAO, textureLoader->textureImageViewAO, false);
 		textureLoader->InitializeSamplers(logicalDevice->logicalDevice, textureLoader->textureSamplerAO,false,0);
 		//CubeMap
-		textureLoader->InitializeTextures(logicalDevice->logicalDevice, logicalDevice->graphicsQueue, commandPool->commandPool, device->physicalDevice, bufferHandler, "ForestEdited2.jpg", textureLoader->irradianceCubeImage, textureLoader->irradianceCubeDeviceMemory,true);
+		textureLoader->InitializeTextures(logicalDevice->logicalDevice, logicalDevice->graphicsQueue, commandPool->commandPool, device->physicalDevice, bufferHandler, TEXTURE_PATH_FOREST_CUBE, textureLoader->irradianceCubeImage, textureLoader->irradianceCubeDeviceMemory,true);
 		textureLoader->InitializeTextureImageView(logicalDevice->logicalDevice, VK_IMAGE_ASPECT_COLOR_BIT, textureLoader->irradianceCubeImage, textureLoader->irradianceCubeImageView, true,textureLoader->cubeTextureMipMapLevel);
 		textureLoader->InitializeSamplers(logicalDevice->logicalDevice, textureLoader->irradianceCubeSampler,false,textureLoader->cubeTextureMipMapLevel);
 		///-----------------------------------------------------------------------------------------------------------
@@ -148,7 +148,7 @@ public:
 		//For Sky Model
 		objectLoader->Initialize(MODEL_PATH, vertices, indices);
 		//For PBR Model
-		objectLoader->Initialize("Droid.obj", vertices2, indices2);
+		objectLoader->Initialize(MODEL_PATH_DROID, vertices2, indices2);
 		///------------------------------------------------------
 
 

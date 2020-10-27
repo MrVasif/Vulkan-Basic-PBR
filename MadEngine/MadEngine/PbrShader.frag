@@ -1,3 +1,9 @@
+/*
+
+    Lightning Models Referenced From : http://graphicrants.blogspot.com/2013/08/specular-brdf-reference.html
+
+*/
+
 #version 450
 
 #define PI 3.1415926535897932384626433832795
@@ -12,7 +18,6 @@ layout(binding = 6) uniform samplerCube irradianceCube;
 layout(location = 0) in vec3 fragColor;
 layout(location = 1) in vec2 fragTexCoord;
 layout(location = 2) in vec3 normalCoords;
-layout(location = 3) in vec3 reflectedVector;
 
 layout(location = 0) out vec4 outColor;
 
@@ -99,6 +104,7 @@ void main() {
         totalLightning += (kD * albedo / PI + specular) * radiance * dotNL;
     }
 
+    // Multiplying with texture(irradianceCube,-N) is not good,but it replace IBL for now.    
     vec3 ambient = albedo * ambientOcclusion *  (texture(irradianceCube,-N).rgb / 4.0f);
     vec3 finalColor = ambient + totalLightning;
 
